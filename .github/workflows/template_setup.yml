@@ -52,7 +52,7 @@ jobs:
         run: |
           export REPO_NAME=$(echo $INFO | jq -r '.repository.name')
           pushd /tmp
-          cookiecutter --no-input \
+          cookiecutter $GITHUB_WORKSPACE --no-input \
             lib_name=$REPO_NAME \
             description="$(echo $INFO | jq -r .repository.description)" \
             github_username="$(echo $INFO | jq -r .repository.owner.login)" \
@@ -60,9 +60,12 @@ jobs:
             author_email="${{ github.event.pusher.email }}" \
             github_id=$GITHUB_REPOSITORY
           popd
-          rm -r .
+          mv .git /tmp/git-store
+          rm -r ./*
+          rm -r ./.[!.]* 
           mv /tmp/$REPO_NAME/* .
-          mv /tmp/$REPO_NAME/*.[!.]* .
+          mv /tmp/$REPO_NAME/.[!.]* .
+          mv /tmp/git-store .git
 
       - name: Force push new repo contents
         uses: stefanzweifel/git-auto-commit-action@v4
