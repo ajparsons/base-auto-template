@@ -1,6 +1,8 @@
-# Python project template
+# Base project template
 
-This template repository can be used to create a new repository with the skeleton of a poetry-based Python library.
+This is a base version of the github/cookiecutter template.
+
+All it does it create an empty folder with readme, changelog, licence, and an empty version of testing and publishing workflows.
 
 This is based on the general approach of [simonw/python-lib](https://github.com/simonw/python-lib), but with a different default structure. 
 
@@ -12,7 +14,7 @@ A new repository based on this template can be created in Github or through cook
 
 The templating process can be run entirely in GitHub to create a new repository. 
 
-Start here: https://github.com/ajparsons/python-poetry-auto-template/generate
+Start here: https://github.com/ajparsons/base-auto-template/generate
 
 Add a one-line description of your repository, then click "Create repository from template".
 
@@ -21,7 +23,7 @@ Add a one-line description of your repository, then click "Create repository fro
 This repo can also be used to set up a template offline using [cookiecutter](https://cookiecutter.readthedocs.io/en/stable/). To start the processs:
 
 ```
-python -m cookiecutter https://github.com/ajparsons/python-poetry-auto-template/
+python -m cookiecutter https://github.com/ajparsons/base-auto-template/
 ```
 
 # Features
@@ -44,11 +46,6 @@ By default, the test action requires pytest, black and pyright to return no erro
 
 The default licence is the MIT Licence. Change if needed. 
 
-# Publishing the package
-
-* Set a GitHub Actions secret for PYPI_TOKEN. 
-* For the initial publish. In the Actions tab for a repo, trigger a manual workfork flow with the 'force to pypi' box ticked.
-* Subsequently, if the poetry version is bumped and all tests pass - the GitHub Action will automatically publish on push to the main branch.
 
 # Development and forking
 
@@ -61,6 +58,5 @@ If you wanted to extend this into a basic django template - you might fork or cl
 This project defines several meta tests in `tests/` that will:
 
 * Attempt to provision a template with basic variables.
-* Run the projects internal tests for self-integrity.
 
 This requires the packages listed in `requirements.dev.txt` to be installed.

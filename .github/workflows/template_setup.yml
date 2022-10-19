@@ -9,14 +9,15 @@ jobs:
   setup-repo:
     if: ${{ !endsWith(github.repository, '-auto-template')  }}
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
           ref: ${{ github.head_ref }}
       
       - name: Install cookiecutter
-        run: pip3 install cookiecutter
+        run: pip install cookiecutter
 
       - uses: actions/github-script@v4
         id: fetch-repo-and-user-details
@@ -50,9 +51,8 @@ jobs:
           INFO: ${{ steps.fetch-repo-and-user-details.outputs.result }}
         run: |
           export REPO_NAME=$(echo $INFO | jq -r '.repository.name')
-          # Run cookiecutter
           pushd /tmp
-          cookiecutter $GITHUB_WORKSPACE --no-input \
+          cookiecutter --no-input \
             lib_name=$REPO_NAME \
             description="$(echo $INFO | jq -r .repository.description)" \
             github_username="$(echo $INFO | jq -r .repository.owner.login)" \
@@ -60,21 +60,9 @@ jobs:
             author_email="${{ github.event.pusher.email }}" \
             github_id=$GITHUB_REPOSITORY
           popd
-          # Move generated content to root directory of repo
-          rm -r tests
-          rm -r hooks
+          rm -r .
           mv /tmp/$REPO_NAME/* .
-          # And hidden settings files:
-          mv /tmp/$REPO_NAME/.gitignore .
-          mv /tmp/$REPO_NAME/.devcontainer .
-          mv /tmp/$REPO_NAME/.vscode .
-          # Delete the template related workflow and the cookiecutter files
-          rm .github/workflows/template_setup.yml
-          rm .github/workflows/template_test.yml
-          rm -r "{{cookiecutter.hyphenated}}"
-          rm -r cookiecutter.json
-          rm pytest.ini
-          rm requirements.dev.txt
+          mv /tmp/$REPO_NAME/*.[!.]* .
 
       - name: Force push new repo contents
         uses: stefanzweifel/git-auto-commit-action@v4
