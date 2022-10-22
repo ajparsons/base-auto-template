@@ -6,6 +6,24 @@ on:
   workflow_dispatch:
 
 jobs:
+
+  tidy-meta-template:
+    if: ${{ endsWith(github.repository, '-auto-template') && github.repository != "ajparsons/base-auto-template"  }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Ensure right repo referenced in urls in readme
+        shell: bash
+        run: |
+          sed s#$BASENAME#$GITHUB_REPOSITORY#g README.md
+        env:
+          BASE_NAME: ajparsons/base-auto-template
+
+      - name: Update readme
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          commit_message: "Update urls in readme for new template"
+
   setup-repo:
     if: ${{ !endsWith(github.repository, '-auto-template')  }}
     runs-on: ubuntu-latest
