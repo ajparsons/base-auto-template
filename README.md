@@ -26,27 +26,6 @@ This repo can also be used to set up a template offline using [cookiecutter](htt
 python -m cookiecutter https://github.com/ajparsons/base-auto-template/
 ```
 
-# Features
- 
-The default package uses:
-
-* [poetry](https://python-poetry.org/) for package management,
-* [pytest](https://docs.pytest.org/en/7.1.x/) for testing,
-* [black](https://black.readthedocs.io/en/stable/) for linting,
-* [pyright](https://github.com/microsoft/pyright) for typechecking. 
-* [GitHub Actions](https://github.com/features/actions) for CI and publishing. 
-
-New repositories include config files and Dockerfile for developing in VS Code or Codespaces, so the development process can happen end to end in Github. (Or not! Will still worked cloned locally). 
-
-The test suite contains meta tests for alignment between the `__version__` of the package and the poetry version, and that the current version is documented in the change log. 
-
-The template version includes a default GitHub Action for testing on Python 3.8-3.10, and publishing to pypi.
-
-By default, the test action requires pytest, black and pyright to return no errors.
-
-The default licence is the MIT Licence. Change if needed. 
-
-
 # Development and forking
 
 If you want to modify or extend this approach - the self-bootstrapping behaviour will only happen when a repo does *not* end in '-auto-template'. If you clone this repo, into a different user or org space, it will not self-bootstrap because the name is the same.
