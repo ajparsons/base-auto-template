@@ -12,10 +12,14 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
+      - name: Checkout repo
+      - uses: actions/checkout@v3
+
       - name: Ensure right repo referenced in urls in readme
         shell: bash
         run: |
-          sed s#$BASENAME#$GITHUB_REPOSITORY#g README.md
+          sed -i "s#$BASE_NAME#$GITHUB_REPOSITORY#g" README.md
         env:
           BASE_NAME: ajparsons/base-auto-template
 
